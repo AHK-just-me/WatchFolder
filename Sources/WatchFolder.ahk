@@ -2,8 +2,8 @@
 ; Function:       Notifies about changes within folders.
 ;                 This is a rewrite of HotKeyIt's WatchDirectory() released at
 ;                    http://www.autohotkey.com/board/topic/60125-ahk-lv2-watchdirectory-report-directory-changes/
-; Tested with:    AHK 1.1.22.02 (A32/U32/U64)
-; Tested on:      Win 8.1 Pro x64
+; Tested with:    AHK 1.1.23.01 (A32/U32/U64)
+; Tested on:      Win 10 Pro x64
 ; Usage:          WatchFolder(Folder, UserFunc[, SubTree := False[, Watch := 3]])
 ; Parameters:
 ;     Folder      -  The full qualified path of the folder to be watched.
@@ -28,6 +28,7 @@
 ; Return values:
 ;     Returns True on success; otherwise False.
 ; Change history:
+;     1.0.01.00/2016-03-14/just me        -  bug-fix for multiple folders
 ;     1.0.00.00/2015-06-21/just me        -  initial release
 ; License:
 ;     The Unlicense -> http://unlicense.org/
@@ -78,7 +79,7 @@ WatchFolder(Folder, UserFunc, SubTree := False, Watch := 0x03) {
    RebuildWaitObjects := False
    ; ===============================================================================================================================
    If (Folder = TimerID) { ; called by timer
-      If (ObjCount := EventArray.Length() && !Paused) {
+      If (ObjCount := EventArray.Length()) && !Paused {
          ObjIndex := DllCall("WaitForMultipleObjects", "UInt", ObjCount, "Ptr", &WaitObjects, "Int", 0, "UInt", 0, "UInt")
          While (ObjIndex >= 0) && (ObjIndex < ObjCount) {
             FolderName := WatchedFolders[ObjIndex + 1]

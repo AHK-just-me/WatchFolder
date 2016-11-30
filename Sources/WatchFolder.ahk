@@ -28,6 +28,7 @@
 ; Return values:
 ;     Returns True on success; otherwise False.
 ; Change history:
+;     1.0.02.00/2016-11-30/just me        -  bug-fix for closing handles with the '**END' option.
 ;     1.0.01.00/2016-03-14/just me        -  bug-fix for multiple folders
 ;     1.0.00.00/2015-06-21/just me        -  initial release
 ; License:
@@ -137,8 +138,8 @@ WatchFolder(Folder, UserFunc, SubTree := False, Watch := 0x03) {
    }
    ; ===============================================================================================================================
    Else If (Folder = "**END") { ; called to stop watching
-      For D In WatchedFolders
-         If D Is Not Integer
+      For K, D In WatchedFolders
+         If K Is Not Integer
             DllCall("CloseHandle", "Ptr", D.Handle)
       For Each, Event In EventArray
          DllCall("CloseHandle", "Ptr", Event)

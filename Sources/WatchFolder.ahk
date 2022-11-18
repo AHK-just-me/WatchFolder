@@ -166,7 +166,7 @@ WatchFolder(Folder, UserFunc, SubTree := False, Watch := 0x03) {
          RebuildWaitObjects := True
       }
       If InStr(FileExist(Folder), "D") && (UserFunc <> "**DEL") && (EventArray.Count() < MAXIMUM_WAIT_OBJECTS) {
-         If (IsFunc(UserFunc) && (UserFunc := Func(UserFunc)) && (UserFunc.MinParams >= 2)) && (Watch &= 0x017F) {
+         If (IsFunc(UserFunc) && (UserFunc := Func(UserFunc)) && (UserFunc.MaxParams >= 2)) && (Watch &= 0x017F) {
             Handle := DllCall("CreateFile", "Str", Folder . "\", "UInt", 0x01, "UInt", 0x07, "Ptr",0, "UInt", 0x03
                                           , "UInt", 0x42000000, "Ptr", 0, "UPtr")
             If (Handle > 0) {
